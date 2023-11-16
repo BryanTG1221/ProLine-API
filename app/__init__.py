@@ -12,8 +12,9 @@ db = SQLAlchemy(app)
 jwt = JWTManager(app)
 migrate = Migrate(app, db)
 
-from app.routes import vehicles, auth
+from app.routes import vehicles, auth, motorcycles
 
 # Registrar blueprints
 app.register_blueprint(vehicles.vehicles_bp, url_prefix='/vehicles')
+app.register_blueprint(motorcycles.motorcycles_bp, url_prefix='/motorcycles')
 app.register_blueprint(auth.auth_bp, url_prefix='/auth')

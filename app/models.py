@@ -16,17 +16,21 @@ class Vehicles(db.Model):
     type = db.Column(db.Text, nullable=False)
     price = db.Column(db.Float, nullable=False)
     urlImage = db.Column(db.Text, nullable=False)
+    is_deleted = db.Column(db.Boolean, default=False)
 
-    def __init__(self, brand, model, year, motor, traction, stock, price, urlImage):
+    def __init__(self, brand, model, year=None, motor=None, traction=None, speedMax=None, power=None, stock=None, type=None, price=None, urlImage=None):
         self.brand = brand
         self.model = model
         self.year = year
         self.motor = motor
         self.traction = traction
+        self.speedMax = speedMax
+        self.power = power
         self.stock = stock
+        self.type = type
         self.price = price
         self.urlImage = urlImage
-
+        self.is_deleted = False
 
 class Motorcycles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -38,6 +42,7 @@ class Motorcycles(db.Model):
     stock = db.Column(db.Integer)
     price = db.Column(db.Float, nullable=False)
     urlImage = db.Column(db.Text, nullable=False)
+    is_deleted = db.Column(db.Boolean, default=False)
 
     def __init__(self, brand, model, year, cylinder, speedMax, stock, price, urlImage):
         self.brand = brand
