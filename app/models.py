@@ -9,13 +9,23 @@ class Vehicles(db.Model):
     model = db.Column(db.String(50), nullable=False)
     year = db.Column(db.Integer)
     motor = db.Column(db.String(50), nullable=False)
+    traction = db.Column(db.String(50), nullable=False)
+    stock = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)  # Corrección aquí
+    urlImage = db.Column(db.Text, nullable=False)
     # Agrega más campos según sea necesario
 
-    def __init__(self, brand, model, year, motor):
+    def __init__(self, brand, model, year, motor, traction, stock, price, urlImage):
         self.brand = brand
         self.model = model
         self.year = year
         self.motor = motor
+        self.traction = traction
+        self.stock = stock
+        self.price = price
+        self.urlImage = urlImage
+        # Puedes agregar más inicializaciones según sea necesario
+
 
 class Motorcycles(db.Model):
     id = db.Column(db.Integer, primary_key=True)
