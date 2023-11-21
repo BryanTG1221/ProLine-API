@@ -1,10 +1,9 @@
 # app/routes/vehicles.py
-
 from flask import Blueprint, request, jsonify
-from app.models import Vehicles
+from app.models import Vehicles  # Importar después de la definición de 'vehicles_bp'
 from app import db
 
-vehicles_bp = Blueprint('vehicles', __name__)
+vehicles_bp = Blueprint('vehicles', __name__, url_prefix='/api/vehicles')
 
 @vehicles_bp.route('/', methods=['GET'])
 def get_all_vehicles():
