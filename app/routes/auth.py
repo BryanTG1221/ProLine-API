@@ -1,5 +1,3 @@
-# app/routes/auth.py
-
 from flask import Blueprint, request, jsonify
 from app.models import Employee, Whitelist
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError

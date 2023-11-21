@@ -6,7 +6,7 @@ from app import db
 
 vehicles_bp = Blueprint('vehicles', __name__)
 
-vehicles_bp.route('/', methods=['GET'])
+@vehicles_bp.route('/', methods=['GET'])
 def get_all_vehicles():
     vehicles = Vehicles.query.filter_by(is_deleted=False).all()
     result = []

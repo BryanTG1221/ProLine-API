@@ -17,6 +17,7 @@ class Vehicles(db.Model):
     price = db.Column(db.Float, nullable=False)
     urlImage = db.Column(db.Text, nullable=False)
     is_deleted = db.Column(db.Boolean, default=False)
+    is_deleted = db.Column(db.Boolean, default=False)
 
     def __init__(self, brand, model, year=None, motor=None, traction=None, speedMax=None, power=None, stock=None, type=None, price=None, urlImage=None):
         self.brand = brand
