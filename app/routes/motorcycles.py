@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify
 from app.models import Motorcycles
 from app import db
 
-motorcycles_bp = Blueprint('motorcycles', __name__)
+motorcycles_bp = Blueprint('motorcycles', __name__, url_prefix='/api/motorcycles')
 
 @motorcycles_bp.route('/', methods=['GET'])
 def get_all_motorcycles():

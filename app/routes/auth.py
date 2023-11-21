@@ -26,7 +26,7 @@ def validate_token(encoded_jwt):
         return "Token no valido"
 
 
-auth_bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
