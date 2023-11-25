@@ -56,15 +56,16 @@ class Motorcycles(db.Model):
         self.urlImage = urlImage
 
 
-class Employee(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    position = db.Column(db.String(50), nullable=False)
-    department = db.Column(db.String(50), nullable=False)
+    position = db.Column(db.String(50), nullable=True)
+    department = db.Column(db.String(50), nullable=True)
     password_hash = db.Column(db.String(128), nullable=False)
-    is_active = db.Column(db.Boolean, default=True)
+    is_active = db.Column(db.Boolean, nullable=False)
+    is_employee = db.Column(db.Boolean, nullable=False)
 
     def set_password(self, password):
         hash_object = hashlib.sha256()
@@ -72,8 +73,12 @@ class Employee(db.Model):
         hash_object.update(textInBytes)
         hash_hex = hash_object.hexdigest()
         return hash_hex
-    
-    def __init__(self, name, lastname, email, position, department, password_hash, is_active=True):
+
+    def check_password(self, password):
+        hashed_password = self.set_password(password)
+        return self.password_hash == hashed_password
+
+    def __init__(self, name, lastname, email, is_active, is_employee, password_hash, position=None, department=None):
         self.name = name
         self.lastname = lastname
         self.email = email
@@ -81,32 +86,8 @@ class Employee(db.Model):
         self.department = department
         self.password_hash = self.set_password(password_hash)
         self.is_active = is_active
+        self.is_employee = is_employee
 
-        
-
-class Client(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    lastname = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    address = db.Column(db.String(255), nullable=False)
-    phone_number = db.Column(db.String(15))
-    password_hash = db.Column(db.String(128), nullable=False)
-
-    def set_password(self, password):
-        hash_object = hashlib.sha256()
-        textInBytes = password.encode('utf-8')
-        hash_object.update(textInBytes)
-        hash_hex = hash_object.hexdigest()
-        return hash_hex
-    
-    def __init__(self, name, lastname ,email, address, phone_number, password_hash):
-        self.name = name
-        self.lastname = lastname
-        self.email = email
-        self.address = address
-        self.phone_number = phone_number
-        self.password_hash = self.set_password(password_hash)
 
 
 class Whitelist(db.Model):
@@ -115,3 +96,10 @@ class Whitelist(db.Model):
 
     def __init__(self, token):
         self.token = token
+
+
+class Sells(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, nullable=False)
+    purchase_date = db.Column(db.Date, nullable=False)
+    purchase_time = db.Column(db.Time, nullable=False)

@@ -13,8 +13,8 @@ migrate = Migrate(app, db)
 
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-# Registrar blueprints después de definir db
-from app.routes import vehicles, auth, motorcycles
+from app.routes import vehicles, auth, motorcycles, sells
 app.register_blueprint(vehicles.vehicles_bp)
+app.register_blueprint(sells.sells_bp)
 app.register_blueprint(motorcycles.motorcycles_bp)
 app.register_blueprint(auth.auth_bp)
