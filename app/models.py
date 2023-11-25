@@ -103,3 +103,16 @@ class Sells(db.Model):
     product_id = db.Column(db.Integer, nullable=False)
     purchase_date = db.Column(db.Date, nullable=False)
     purchase_time = db.Column(db.Time, nullable=False)
+    brand = db.Column(db.String(50))
+    model = db.Column(db.String(50))
+    year = db.Column(db.Integer)
+    price = db.Column(db.Float)
+
+    def __init__(self, product_id, purchase_date, purchase_time, brand=None, model=None, year=None, price=None):
+        self.product_id = product_id
+        self.purchase_date = purchase_date
+        self.purchase_time = purchase_time
+        self.brand = brand
+        self.model = model
+        self.year = year
+        self.price = price

@@ -1,8 +1,8 @@
-"""Feat Structure
+"""Added Struct
 
-Revision ID: a1db7b64007d
+Revision ID: 6b3931a39620
 Revises: 
-Create Date: 2023-11-24 19:34:07.927314
+Create Date: 2023-11-24 22:50:16.286634
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a1db7b64007d'
+revision = '6b3931a39620'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,6 +36,7 @@ def upgrade():
     sa.Column('product_id', sa.Integer(), nullable=False),
     sa.Column('purchase_date', sa.Date(), nullable=False),
     sa.Column('purchase_time', sa.Time(), nullable=False),
+    sa.Column('is_vehicle', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user',
@@ -46,8 +47,8 @@ def upgrade():
     sa.Column('position', sa.String(length=50), nullable=True),
     sa.Column('department', sa.String(length=50), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=False),
-    sa.Column('is_active', sa.Boolean(), nullable=True),
-    sa.Column('is_employee', sa.Boolean(), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=False),
+    sa.Column('is_employee', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
