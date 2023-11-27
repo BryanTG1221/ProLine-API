@@ -11,10 +11,13 @@ db = SQLAlchemy(app)
 jwt = JWTManager(app)
 migrate = Migrate(app, db)
 
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
-from app.routes import vehicles, auth, motorcycles, sells
-app.register_blueprint(vehicles.vehicles_bp)
+from app.routes import vehicles, auth, motorcycles, sells, users, brands
+
+app.register_blueprint(brands.brands_bp)
 app.register_blueprint(sells.sells_bp)
+app.register_blueprint(users.users_bp)
+app.register_blueprint(vehicles.vehicles_bp)
 app.register_blueprint(motorcycles.motorcycles_bp)
 app.register_blueprint(auth.auth_bp)

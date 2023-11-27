@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
-from sqlalchemy import and_
-from app.models import Sells, Motorcycles, Vehicles
+from app.models import Sells
 from app import db
 
 sells_bp = Blueprint('sells', __name__, url_prefix='/api/sells')
@@ -33,6 +32,8 @@ def add_sell():
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': 'Error al registrar la venta', 'error': str(e)}), 500
+    
+
 @sells_bp.route('/', methods=['GET'])
 def get_all_sells():
     sells_query = db.session.query(Sells).all()

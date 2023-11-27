@@ -116,3 +116,14 @@ class Sells(db.Model):
         self.model = model
         self.year = year
         self.price = price
+
+class Brand(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+    logo_url = db.Column(db.Text, nullable=False)
+    is_car = db.Column(db.Boolean, nullable=False)
+
+    def __init__(self, name, logo_url, is_car):
+        self.name = name
+        self.logo_url = logo_url
+        self.is_car = is_car
