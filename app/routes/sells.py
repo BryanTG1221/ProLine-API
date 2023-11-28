@@ -1,5 +1,10 @@
-from flask import Blueprint, request, jsonify
+from datetime import datetime
+from flask import Blueprint, request, jsonify, send_file
+from openpyxl import Workbook
 from app.models import Sells
+from io import BytesIO
+import csv
+from reportlab.pdfgen import canvas
 from app import db
 
 sells_bp = Blueprint('sells', __name__, url_prefix='/api/sells')
@@ -8,12 +13,15 @@ sells_bp = Blueprint('sells', __name__, url_prefix='/api/sells')
 def add_sell():
     data = request.json
     product_id = data.get('product_id')
-    purchase_date = data.get('purchase_date')
-    purchase_time = data.get('purchase_time')
     brand = data.get('brand')
     model = data.get('model')
     year = data.get('year')
     price = data.get('price')
+
+    # Obtén la fecha y hora actual
+    current_datetime = datetime.now()
+    purchase_date = current_datetime.date()
+    purchase_time = current_datetime.time()
 
     new_sell = Sells(
         product_id=product_id,
@@ -74,3 +82,32 @@ def get_sell(sell_id):
         return jsonify(sell_details)
     else:
         return jsonify({'message': 'Venta no encontrada'}), 404
+
+@sells_bp.route('/export/excel', methods=['GET'])
+def export_excel():
+    try:
+        sells_query = db.session.query(Sells).all()
+
+        # Crear un archivo Excel en memoria
+        workbook = Workbook()
+        sheet = workbook.active
+        sheet.append(['ID', 'Product ID', 'Brand', 'Model', 'Price'])  # Fila de encabezado
+
+        # Agregar datos de ventas al Excel
+        for sell in sells_query:
+            sheet.append([sell.id, sell.product_id, sell.brand, sell.model, sell.price])
+
+        # Configurar la respuesta del servidor
+        excel_file = BytesIO()
+        workbook.save(excel_file)
+        excel_file.seek(0)
+
+        return send_file(
+            excel_file,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            as_attachment=True,
+            download_name='ventas_reporte.xlsx'
+        )
+
+    except Exception as e:
+        return jsonify({'message': 'Error al exportar a Excel', 'error': str(e)}), 500
