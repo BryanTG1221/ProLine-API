@@ -37,7 +37,7 @@ def add_user():
 
 @users_bp.route('/employees', methods=['GET'])
 def get_all_employees():
-    employees_query = db.session.query(User).filter_by(is_employee=True).all()
+    employees_query = db.session.query(User).filter_by(is_employee=True, is_active=True).all()
 
     employees_list = [
         {

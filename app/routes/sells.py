@@ -111,3 +111,37 @@ def export_excel():
 
     except Exception as e:
         return jsonify({'message': 'Error al exportar a Excel', 'error': str(e)}), 500
+    
+@sells_bp.route('/export/pdf', methods=['GET'])
+def export_pdf():
+    try:
+        sells_query = db.session.query(Sells).all()
+
+        # Crear un archivo PDF en memoria
+        pdf_buffer = BytesIO()
+        pdf = canvas.Canvas(pdf_buffer)
+
+        # Configurar el encabezado
+        pdf.setFont("Helvetica", 12)
+        pdf.drawString(100, 800, "Reporte de Ventas")
+
+        # Agregar datos de ventas al PDF
+        y_position = 780
+        for sell in sells_query:
+            sell_info = f"ID: {sell.id}, Product ID: {sell.product_id}, Brand: {sell.brand}, Model: {sell.model}, Price: {sell.price}"
+            pdf.drawString(100, y_position, sell_info)
+            y_position -= 20
+
+        # Guardar el PDF en memoria
+        pdf.save()
+        pdf_buffer.seek(0)
+
+        return send_file(
+            pdf_buffer,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name='ventas_reporte.pdf'
+        )
+
+    except Exception as e:
+        return jsonify({'message': 'Error al exportar a PDF', 'error': str(e)}), 500

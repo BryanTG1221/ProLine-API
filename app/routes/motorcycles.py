@@ -8,7 +8,7 @@ motorcycles_bp = Blueprint('motorcycles', __name__, url_prefix='/api/motorcycles
 
 @motorcycles_bp.route('/', methods=['GET'])
 def get_all_motorcycles():
-    motorcycles = Motorcycles.query.all()
+    motorcycles = Motorcycles.query.filter_by(is_deleted=False).all()
     result = []
     for motorcycle in motorcycles:
         result.append({
